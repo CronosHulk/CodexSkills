@@ -30,3 +30,5 @@ Use `codex-token-saver` as a **cost discipline** for coding tasks, not as an add
 
 ## Verification
 Verify changed behavior with the narrowest meaningful checks first. Expand for risk and dependencies. Report what was actually run, never imply unrun tests passed.
+
+- Unfamiliar codebase or cross-module dependency tracing -> `graphify` before broad exploration, unless narrow `rg` is sufficient.

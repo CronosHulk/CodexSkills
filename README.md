@@ -1,6 +1,6 @@
 # Codex Optimized v2.1
 
-27 coding skills, selective skill routing, token-saving discipline, and six model-specific subagent role definitions.
+28 coding skills, selective skill routing, token-saving discipline, and six model-specific subagent role definitions.
 
 ## Install
 
@@ -55,3 +55,7 @@ The included example is **synthetic**. See `benchmarks/README.md` for real A/B t
 - `AUDIT.md`: original audit
 
 **Important:** Routing fixtures test configuration expectations, not model behavior. Model availability and effective subagent configuration must be verified on the actual Codex version.
+
+## Local Graph Context
+
+`graphify` now includes a working stdlib-only Python dependency graph, incremental refresh, CLI search, and an optional local MCP server. See `docs/GRAPH_CONTEXT.md`. It is a lightweight subset, not the legacy full Graphify multimedia/GraphRAG engine.

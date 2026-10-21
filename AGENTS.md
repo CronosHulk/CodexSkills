@@ -27,3 +27,6 @@ Select the single most specific matching skill from `.agents/skills/` using its 
 
 ## Skill precedence
 User instructions and applicable repository-specific AGENTS.md take precedence over generic optimization guidance. Read references only when a relevant skill explicitly needs them.
+
+## Automatic graph context
+For unfamiliar repositories, dependency tracing, or multi-module changes, select `graphify` and run `python3 .agents/skills/graphify/scripts/graph.py sync --root .` before broad source exploration. Query the local graph first, then verify source files. Refresh after changes. Skip graph creation for FAST tasks and narrow searches. MCP is optional; see `docs/GRAPH_CONTEXT.md`.
