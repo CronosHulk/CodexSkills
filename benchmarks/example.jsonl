@@ -1,0 +1,2 @@
+{"task_id":"sample-bug","mode":"baseline","model":"example","input_tokens":10000,"output_tokens":2000,"success":true}
+{"task_id":"sample-bug","mode":"optimized","model":"example","input_tokens":7000,"output_tokens":1500,"success":true}

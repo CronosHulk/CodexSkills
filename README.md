@@ -1,295 +1,57 @@
-# Codex Skills — Token-Efficient Multi-Agent Development
+# Codex Optimized v2.1
 
-**A modular collection of 27 AI coding skills with automatic skill selection, cost-aware agent orchestration, and context optimization for OpenAI Codex.**
+27 coding skills, selective skill routing, token-saving discipline, and six model-specific subagent role definitions.
 
-Build software with structured AI workflows while reducing unnecessary model calls, repeated context processing, and expensive reasoning.
+## Install
 
-## Why this project?
-
-AI coding agents are powerful, but inefficient workflows can waste tokens and increase development costs.
-
-Common problems include:
-
-- Reading entire repositories for small changes.
-- Using expensive reasoning models for trivial tasks.
-- Launching unnecessary subagents.
-- Repeatedly analyzing the same files.
-- Loading irrelevant instructions into context.
-- Running extensive workflows for simple bug fixes.
-- Generating verbose reports instead of actionable results.
-
-**Codex Skills addresses these problems through intelligent workflow selection, lightweight agents, and task-specific development practices.**
-
-## Key Features
-
-### Automatic Skill Selection
-
-Codex selects the most relevant skill based on the task.
-
-Instead of executing every development workflow, the system prioritizes one primary skill and loads additional instructions only when necessary.
-
-Examples:
-
-| Task | Selected Skill |
-|---|---|
-| Fix a failing test | `debugging-and-error-recovery` |
-| Implement a feature | `incremental-implementation` |
-| Improve slow code | `performance-optimization` |
-| Review a pull request | `code-review-and-quality` |
-| Design an API | `api-and-interface-design` |
-| Investigate security issues | `security-and-hardening` |
-| Optimize context usage | `codex-token-saver` |
-
-Skill selection is instruction-driven and depends on the capabilities of the installed Codex version.
-
-### Token-Efficient Development
-
-The `codex-token-saver` skill introduces practical optimization strategies:
-
-- Search relevant symbols before opening files.
-- Avoid unnecessary full-repository scans.
-- Reuse previously discovered information.
-- Keep code modifications focused.
-- Minimize repeated tool calls.
-- Prefer targeted tests before running complete test suites.
-- Limit unnecessary subagent execution.
-- Return concise implementation summaries.
-
-The goal is to reduce token consumption without sacrificing correctness or maintainability.
-
-### Cost-Aware Multi-Agent Orchestration
-
-Different development tasks require different levels of reasoning.
-
-This project provides six specialized subagent configurations.
-
-| Agent | Default Model | Responsibility |
-|---|---|---|
-| Explorer | GPT-6 Luna | Repository exploration |
-| Implementer | GPT-6 Luna | Scoped code changes |
-| Tester | GPT-6 Luna | Test creation and execution |
-| Reviewer | GPT-6 Luna | Code quality checks |
-| Architect | GPT-6.1 Sol | Complex architecture and design |
-| Security Reviewer | GPT-6.1 Sol | Security-sensitive analysis |
-
-The main agent defaults to GPT-6 Luna, with GPT-6.1 Sol reserved for more demanding tasks.
-
-Model assignments are configurable and depend on model availability and Codex support for custom agent configurations.
-
-### Adaptive Development Workflows
-
-Not every task requires a complete software engineering lifecycle.
-
-The framework uses three execution levels:
-
-| Mode | Use Case | Approach |
-|---|---|---|
-| FAST | Small fixes, localized changes | Direct execution, no subagents |
-| STANDARD | Feature implementation, multi-file changes | Focused planning and selective delegation |
-| DEEP | Complex architecture, migrations, critical changes | Specialized agents and additional verification |
-
-This prevents unnecessary orchestration overhead.
-
-## Architecture
-
-```text
-User Request
-    |
-    v
-Codex Main Agent
-    |
-    +-- Automatic Skill Selection
-    |       |
-    |       +-- Debugging
-    |       +-- Implementation
-    |       +-- Testing
-    |       +-- Security
-    |       +-- Performance
-    |       +-- Other specialized skills
-    |
-    +-- Task Complexity Evaluation
-            |
-            +-- FAST
-            |    Direct execution
-            |
-            +-- STANDARD
-            |    Luna subagents as needed
-            |
-            +-- DEEP
-                 Luna for exploration/testing
-                 Sol for complex reasoning
-```
-
-The main agent coordinates implementation, integrates results, and verifies the final changes.
-
-Subagents receive bounded tasks and return concise findings rather than full execution histories.
-
-## Project Structure
-
-```text
-.
-├── AGENTS.md
-├── .agents/
-│   └── skills/
-│       ├── using-agent-skills/
-│       ├── codex-token-saver/
-│       ├── context-engineering/
-│       ├── incremental-implementation/
-│       ├── debugging-and-error-recovery/
-│       ├── test-driven-development/
-│       └── ... 21 additional skills
-├── .codex/
-│   ├── config.toml
-│   └── agents/
-│       ├── explorer.toml
-│       ├── implementer.toml
-│       ├── tester.toml
-│       ├── reviewer.toml
-│       ├── architect.toml
-│       └── security_reviewer.toml
-└── references/
-    ├── orchestration-patterns.md
-    ├── testing-patterns.md
-    ├── security-checklist.md
-    └── ...
-```
-
-## Installation
-
-### Project-Level Installation
-
-Copy the following into your project root:
-
-```text
-AGENTS.md
-.agents/
-.codex/
-references/
-```
-
-Merge existing `AGENTS.md` and `.codex/config.toml` configurations instead of overwriting them.
-
-Restart Codex after installation. Project-level configuration may require the project to be trusted.
-
-### Global Skill Installation
-
-To make the skills available across projects, copy the skill directories into:
+Requires Python 3.11+ for local tooling.
 
 ```bash
-~/.agents/skills/
+python3 scripts/install.py --target /path/to/project
+python3 scripts/install.py --target /path/to/project --apply
 ```
 
-For global agent configurations, copy the agent TOML files into:
+The first command is a dry run. Existing files are preserved by default. Merge your existing `AGENTS.md` and `.codex/config.toml` manually; **do not blindly overwrite custom settings**. To replace with `.bak` backups, use `--apply --overwrite`.
+
+## Check
 
 ```bash
-~/.codex/agents/
+python3 scripts/validate.py
+python3 -m unittest discover -s tests -v
+python3 scripts/check_runtime.py
 ```
 
-Merge the relevant agent settings into:
+Validation checks files, frontmatter, TOML and intended model mappings. It **does not** prove the running Codex instance honors model routing. See `docs/MODEL_ROUTING.md` for manual verification.
+
+## Benchmarks
 
 ```bash
-~/.codex/config.toml
+python3 scripts/benchmark.py benchmarks/example.jsonl
 ```
 
-## Usage
+The included example is **synthetic**. See `benchmarks/README.md` for real A/B testing. No measured cost savings are claimed.
 
-### Automatic Workflow
+## Intended orchestration
 
-Simply describe the task:
+- Main: GPT-6 Luna.
+- Explorer, Implementer, Tester, Reviewer: Luna.
+- Architect, Security Reviewer: GPT-6.1 Sol.
+- FAST tasks: no subagents. STANDARD: at most one normally. DEEP: up to two concurrently.
+- Skill routing chooses one primary skill; `codex-token-saver` principles are always summarized in `AGENTS.md`, so its full skill need not load on every turn.
 
-```text
-Fix the authentication bug and add regression tests.
-```
+## Project contents
 
-Codex should select the relevant workflow, investigate the problem, implement the fix, and verify the result.
+- `AGENTS.md`: low-overhead rules and automatic skill selection
+- `.agents/skills/`: 27 skills
+- `.codex/agents/`: 6 model-specific role definitions
+- `.codex/config.toml`: intended default model and agent settings
+- `scripts/install.py`: dry-run-first installer with overwrite backups
+- `scripts/validate.py`: offline static validation
+- `scripts/check_runtime.py`: Codex CLI probe
+- `scripts/benchmark.py`: real-token comparison tool
+- `tests/`: unit tests and routing-policy fixtures
+- `.github/workflows/validate.yml`: automated checks
+- `docs/MODEL_ROUTING.md`: limits and verification steps
+- `AUDIT.md`: original audit
 
-### Explicit Skill Invocation
-
-```text
-$codex-token-saver
-
-Refactor the payment processing module.
-Minimize token consumption while preserving behavior.
-```
-
-### Complex Tasks
-
-```text
-Analyze the current backend architecture and propose
-a migration strategy.
-
-Use lightweight agents for repository exploration.
-Reserve stronger reasoning models for architecture
-decisions and critical review.
-```
-
-## Design Principles
-
-**1. Use the simplest effective workflow.**
-
-Small tasks should not require complex orchestration.
-
-**2. Prefer focused context over large prompts.**
-
-Retrieve information when it becomes necessary.
-
-**3. Delegate only when beneficial.**
-
-Subagents should reduce work, isolate context, or provide useful specialization.
-
-**4. Match model capability to task complexity.**
-
-Expensive models should be reserved for problems that justify their cost.
-
-**5. Preserve correctness.**
-
-Token optimization must never replace appropriate testing, security validation, or code review.
-
-## Measuring Efficiency
-
-The project aims to improve:
-
-- Token consumption per completed task.
-- Number of unnecessary tool calls.
-- Amount of repeated context processing.
-- Subagent orchestration overhead.
-- Development time and verification quality.
-
-Actual savings depend on the task, model, repository, and Codex environment.
-
-**No fixed percentage of token savings is guaranteed.** Reliable comparisons require running equivalent tasks with and without the framework.
-
-## Compatibility
-
-Designed for OpenAI Codex environments supporting:
-
-- Agent Skills (`SKILL.md`)
-- `AGENTS.md` instructions
-- Custom agent configurations
-- Multi-agent workflows
-
-Some features depend on the installed Codex version and available models. Automatic routing is guided by instructions rather than enforced by an independent scheduling service.
-
-## Roadmap
-
-- [x] Modular coding skills
-- [x] Automatic skill selection instructions
-- [x] Token optimization skill
-- [x] Task complexity classification
-- [x] Cost-aware subagent configurations
-- [x] Context-efficient delegation guidelines
-- [ ] Automated token usage benchmarks
-- [ ] Task-based model routing evaluation
-- [ ] Skill selection accuracy tests
-- [ ] Performance comparison across model combinations
-- [ ] Automated reporting of token usage per task
-
-## Contributing
-
-Contributions are welcome, particularly improvements to skill routing, token efficiency, multi-agent orchestration, testing workflows, and measurable development performance.
-
-When proposing changes, prioritize practical improvements that preserve correctness while reducing unnecessary work.
-
----
-
-**Build smarter. Delegate selectively. Spend fewer tokens.**
+**Important:** Routing fixtures test configuration expectations, not model behavior. Model availability and effective subagent configuration must be verified on the actual Codex version.
