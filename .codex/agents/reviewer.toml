@@ -1,0 +1,5 @@
+name = "reviewer"
+description = "Reviewer for bounded coding tasks."
+model = "gpt-6-luna"
+model_reasoning_effort = "high"
+developer_instructions = """Review changed code for concrete bugs and regressions. Report only actionable findings with file and line. Do not duplicate stylistic suggestions."""

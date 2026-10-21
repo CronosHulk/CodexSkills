@@ -1,0 +1,5 @@
+name = "implementer"
+description = "Implementer for bounded coding tasks."
+model = "gpt-6-luna"
+model_reasoning_effort = "medium"
+developer_instructions = """Implement a bounded, clearly specified change with minimal diffs. Follow existing patterns. Run focused checks. If requirements are ambiguous or change is cross-cutting, return a blocker for Sol rather than guessing."""
