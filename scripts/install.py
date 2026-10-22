@@ -7,8 +7,8 @@ import sys
 
 SOURCE=Path(__file__).resolve().parents[1]
 FILES=[Path("AGENTS.md"),Path(".codex/config.toml")]
-FILES+=sorted(p.relative_to(SOURCE) for base in (".agents/skills",".codex/agents","references")
-              for p in (SOURCE/base).rglob("*") if p.is_file())
+FILES+=sorted(p.relative_to(SOURCE) for base in (".agents/skills",".codex/agents","references","scripts")
+              for p in (SOURCE/base).rglob("*") if p.is_file() and "__pycache__" not in p.parts and p.suffix!=".pyc")
 def install(destination,apply=False,overwrite=False):
     destination=Path(destination).expanduser().resolve()
     if destination==SOURCE:raise ValueError("destination must differ from source")

@@ -30,3 +30,6 @@ User instructions and applicable repository-specific AGENTS.md take precedence o
 
 ## Automatic graph context
 For unfamiliar repositories, dependency tracing, or multi-module changes, select `graphify` and run `python3 .agents/skills/graphify/scripts/graph.py sync --root .` before broad source exploration. Query the local graph first, then verify source files. Refresh after changes. Skip graph creation for FAST tasks and narrow searches. MCP is optional; see `docs/GRAPH_CONTEXT.md`.
+
+## Selective project intelligence
+For non-trivial work, consult `project-memory` only if relevant verified project decisions or pitfalls may exist; retrieve bounded notes with `python3 scripts/project_intelligence.py recall --root . --term <topic>`. Never persist secrets or unverified assumptions. For Python cross-module/risky changes, invoke `change-impact-analyzer` using `python3 scripts/project_intelligence.py impact --root . --path <file>`; after edits use `smart-test-selection` with `tests --root .` to suggest focused checks. Do not run these tools for FAST tasks. Always verify code and expand tests for critical behavior. Graph-based hints are not authoritative.

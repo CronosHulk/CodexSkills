@@ -17,7 +17,7 @@ class ToolingTests(unittest.TestCase):
     def test_static_validation(self):
         result=validator.check()
         self.assertTrue(result["ok"],result["errors"])
-        self.assertEqual(result["skills"],28)
+        self.assertEqual(result["skills"],31)
     def test_install_dry_run_does_not_write(self):
         with tempfile.TemporaryDirectory() as d:
             installer.install(d,apply=False)

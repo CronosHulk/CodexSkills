@@ -59,3 +59,6 @@ The included example is **synthetic**. See `benchmarks/README.md` for real A/B t
 ## Local Graph Context
 
 `graphify` now includes a working stdlib-only Python dependency graph, incremental refresh, CLI search, and an optional local MCP server. See `docs/GRAPH_CONTEXT.md`. It is a lightweight subset, not the legacy full Graphify multimedia/GraphRAG engine.
+
+## v2.3: Project intelligence
+Three additional skills: `project-memory`, `change-impact-analyzer`, `smart-test-selection`. All share `scripts/project_intelligence.py` and the existing Graphify graph. See `docs/PROJECT_INTELLIGENCE.md`. They are selectively invoked via `AGENTS.md`; no background daemon or automatic persistent memory of all tasks is implied.
