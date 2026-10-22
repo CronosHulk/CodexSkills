@@ -8,11 +8,14 @@ import sys
 import tomllib
 
 ROOT=Path(__file__).resolve().parents[1]
+EXPECTED_SKILLS = {'codex-token-saver', 'api-and-interface-design', 'graphify', 'debugging-and-error-recovery', 'code-simplification', 'smart-test-selection', 'using-agent-skills', 'context-engineering', 'security-and-hardening', 'code-review-and-quality', 'git-workflow-and-versioning', 'browser-testing-with-devtools', 'planning-and-task-breakdown', 'observability-and-instrumentation', 'deprecation-and-migration', 'doubt-driven-development', 'source-driven-development', 'test-driven-development', 'solid-pragmatic', 'interview-me', 'constraint-driven-development', 'documentation-and-adrs', 'spec-driven-development', 'frontend-ui-engineering', 'change-impact-analyzer', 'performance-optimization', 'shipping-and-launch', 'ci-cd-and-automation', 'incremental-implementation', 'idea-refine', 'project-memory'}
 REQUIRED={"explorer","implementer","tester","reviewer","architect","security_reviewer"}
 def check(root=ROOT):
     errors=[]; warnings=[]; roles={}
     skills=list((root/".agents/skills").glob("*/SKILL.md"))
     names=set()
+    missing = EXPECTED_SKILLS - {f.parent.name for f in skills}
+    if missing: errors.append(f"missing skill directories: {sorted(missing)}")
     for f in skills:
         content=f.read_text(encoding="utf-8")
         match=re.match(r"\A---\s*\n(.*?)\n---\s*\n",content,re.S)
@@ -44,7 +47,7 @@ def check(root=ROOT):
     config=tomllib.loads((root/".codex/config.toml").read_text())
     if config.get("agents",{}).get("max_concurrent_threads_per_session",99)>2:
         warnings.append("concurrency above recommended 2")
-    return {"ok":not errors,"skills":len(skills),"roles":roles,"errors":errors,"warnings":warnings}
+    return {"ok":not errors,"skills":len(skills),"skill_names":sorted(names),"missing_skills":sorted(missing),"roles":roles,"errors":errors,"warnings":warnings}
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("--json",action="store_true")

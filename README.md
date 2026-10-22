@@ -62,3 +62,7 @@ The included example is **synthetic**. See `benchmarks/README.md` for real A/B t
 
 ## v2.3: Project intelligence
 Three additional skills: `project-memory`, `change-impact-analyzer`, `smart-test-selection`. All share `scripts/project_intelligence.py` and the existing Graphify graph. See `docs/PROJECT_INTELLIGENCE.md`. They are selectively invoked via `AGENTS.md`; no background daemon or automatic persistent memory of all tasks is implied.
+
+## v2.3.1 CI fix
+
+The validator now checks the **actual list of required skill directories** and reports missing names, instead of only comparing a hard-coded count. If GitHub Actions reports a missing skill, restore it from this archive rather than lowering the expected count.
